@@ -1,6 +1,77 @@
 syntax on
 filetype plugin indent on
 autocmd GUIEnter * simalt ~x
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                 System                                     "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible
+set showmatch           " Show matching brackets.
+set incsearch           " Incremental search
+set mouse=a             " Enable mouse usage (all modes)
+set ruler               " Disaply current location of curor
+set hlsearch            " Highlight search
+set ignorecase          " ignorecase on
+set smarttab            " Smart tab
+set fileformat=dos
+set wrap
+set relativenumber
+set number              " Show line number
+set laststatus=0        " Always show statusline
+set wildmenu
+set smartcase
+set nobackup
+set noswapfile
+set guioptions=         " Remove Menubar and Toolbar
+
+
+" Keyboard customize
+inoremap jk <Esc>
+nnoremap j gj
+nnoremap k gk
+
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+let mapleader = ","
+
+inoremap <expr> <C-d> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+inoremap <expr> <C-u> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+inoremap <expr> <C-f> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-f>"
+inoremap <expr> <C-b> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-b>"
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+
+vnoremap <tab> >gv
+vnoremap <s-tab> <gv
+nmap <tab> v>
+nmap <s-tab> v<
+
+" Close preview window automaticly
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" Map <Leader>- and <Leader>= to :colder and :cnewer
+nnoremap <Leader>- :colder<CR>
+nnoremap <Leader>= :cnewer<CR>
+
+" Window split
+set winminheight=0
+set winminwidth=0
+set splitright
+set splitbelow
+nnoremap <Leader>z <C-w>\|<C-w>_
+
+" Remove trailing whitespace when writing a buffer, but not for diff files.
+function RemoveTrailingWhitespace()
+    if &ft != "diff"
+        let b:curcol = col(".")
+        let b:curline = line(".")
+        silent! %s/\t/   /g
+        silent! %s/\s\+$//
+        silent! %s/\(\s*\n\)\+\%$//
+        call cursor(b:curline, b:curcol)
+    endif
+endfunction
+
 
 let path='$HOME/vimfiles/plugged'
 
@@ -17,8 +88,8 @@ Plug 'sjl/gundo.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'gregsexton/VimCalc'
 Plug 'mileszs/ack.vim'
-Plug 'chazy/cscope_maps'
-
+Plug 'nz45s2/vim-cscope-maps'
+Plug 'nz45s2/vim-mswin'
 
 
 call plug#end()
@@ -73,79 +144,6 @@ nnoremap <F7> :cs kill -1<CR>
 
 " Ctag
 nnoremap <C-]> :tjump <C-R>=expand("<cword>")<CR><CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                 System                                     "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible
-set showmatch           " Show matching brackets.
-set incsearch           " Incremental search
-set mouse=a             " Enable mouse usage (all modes)
-set ruler               " Disaply current location of curor
-set hlsearch            " Highlight search
-set ignorecase          " ignorecase on
-set smarttab            " Smart tab
-set fileformat=dos
-set wrap
-set relativenumber
-set number              " Show line number
-set laststatus=0        " Always show statusline
-set wildmenu
-set smartcase
-set nobackup
-set noswapfile
-set guioptions=         " Remove Menubar and Toolbar
-
-
-" Keyboard customize
-inoremap jk <Esc>
-nnoremap j gj
-nnoremap k gk
-
-nnoremap n nzzzv
-nnoremap N Nzzzv
-
-let mapleader = ","
-
-inoremap <expr> <C-d> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
-inoremap <expr> <C-u> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
-inoremap <expr> <C-f> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-f>"
-inoremap <expr> <C-b> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-b>"
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
-
-" vnoremap <tab> >gv
-" vnoremap <s-tab> <gv
-" nmap <tab> v>
-" nmap <s-tab> v<
-
-" Close preview window automaticly
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-
-" Map <Leader>- and <Leader>= to :colder and :cnewer
-nnoremap <Leader>- :colder<CR>
-nnoremap <Leader>= :cnewer<CR>
-
-" Window split
-set winminheight=0
-set winminwidth=0
-set splitright
-set splitbelow
-nnoremap <Leader>z <C-w>\|<C-w>_
-
-" Remove trailing whitespace when writing a buffer, but not for diff files.
-function RemoveTrailingWhitespace()
-    if &ft != "diff"
-        let b:curcol = col(".")
-        let b:curline = line(".")
-        silent! %s/\t/   /g
-        silent! %s/\s\+$//
-        silent! %s/\(\s*\n\)\+\%$//
-        call cursor(b:curline, b:curcol)
-    endif
-endfunction
-
-
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
