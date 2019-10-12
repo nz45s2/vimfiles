@@ -87,10 +87,9 @@ Plug 'jisaacks/GitGutter'
 Plug 'sjl/gundo.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'gregsexton/VimCalc'
-Plug 'mileszs/ack.vim'
+Plug 'mhinz/vim-grepper'
 Plug 'nz45s2/vim-cscope-maps'
 Plug 'nz45s2/vim-mswin'
-
 
 call plug#end()
 
@@ -131,10 +130,10 @@ let yankring_replace_n_pkey = '<C-k>'
 let yankring_replace_n_nkey = '<C-j>'
 let g:yankring_max_element_length = 0
 
-" Ag
-nnoremap <leader>a :Ack!<space>
-let g:ackprg = 'ag --smart-case --nogroup --nocolor --column'
-let g:ack_use_dispatch = 1
+" Grepper
+nnoremap <Leader>a :Grepper<space>
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
 
 " Cscope
 nnoremap <F7> :cs kill -1<CR>
