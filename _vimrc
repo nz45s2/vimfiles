@@ -80,6 +80,7 @@ call plug#begin()
 Plug 'vim-scripts/a.vim'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'vim-scripts/VisIncr'
+Plug 'vim-scripts/TagHighlight'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'scrooloose/nerdtree'
 Plug 'dimasg/vim-mark'
@@ -88,6 +89,7 @@ Plug 'sjl/gundo.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'gregsexton/VimCalc'
 Plug 'mhinz/vim-grepper'
+Plug 'easymotion/vim-easymotion'
 Plug 'nz45s2/vim-cscope-maps'
 Plug 'nz45s2/vim-mswin'
 
@@ -134,6 +136,20 @@ let g:yankring_max_element_length = 0
 nnoremap <Leader>a :Grepper<space>
 nmap gs <plug>(GrepperOperator)
 xmap gs <plug>(GrepperOperator)
+
+if executable("ag")
+    " Note we extract the column as well as the file and line number
+    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    set grepformat=%f:%l:%c%m
+
+    " CtrlP with ag
+    " bug: can't ignore files by g:ctrlp_custom_ignore
+    if has( 'unix' )
+        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    elseif has( 'win32' )
+        let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
+    endif
+endif
 
 " Cscope
 nnoremap <F7> :cs kill -1<CR>
