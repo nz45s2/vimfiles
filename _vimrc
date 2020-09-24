@@ -46,6 +46,8 @@ vnoremap <s-tab> <gv
 nmap <tab> v>
 nmap <s-tab> v<
 
+unmap <c-i>
+
 " Close preview window automaticly
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
@@ -81,9 +83,12 @@ Plug 'vim-scripts/a.vim'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'vim-scripts/VisIncr'
 Plug 'vim-scripts/TagHighlight'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'scrooloose/nerdtree'
+Plug 'vim-scripts/bufexplorer.zip'
+Plug 'vim-syntastic/syntastic'
+Plug 'tomasr/molokai'
 Plug 'dimasg/vim-mark'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-unimpaired'
 Plug 'jisaacks/GitGutter'
 Plug 'sjl/gundo.vim'
 Plug 'kien/ctrlp.vim'
@@ -92,6 +97,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'easymotion/vim-easymotion'
 Plug 'nz45s2/vim-cscope-maps'
 Plug 'nz45s2/vim-mswin'
+
 
 call plug#end()
 
@@ -109,7 +115,7 @@ let g:ctrlp_lazy_update = 0
 let g:ctrlp_max_files = 0
 let g:ctrlp_max_height = 70
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\v[\/](Products)|\v[\/](example_config)',
+    \ 'dir':  '\.git$\|\.plastic$\|\.svn$\|\v[\/](output)|\v[\/](tools)',
     \ 'file': '\.exe$\|\.so$\|\.dll$\|\.elf$\|\.o$\
                \|\.lst$\|\.obj$\
                \|\.vsd$\|\.vsdx$\|\.doc$\|\.docx$\
@@ -138,17 +144,9 @@ nmap gs <plug>(GrepperOperator)
 xmap gs <plug>(GrepperOperator)
 
 if executable("ag")
-    " Note we extract the column as well as the file and line number
-    set grepprg=ag\ --nogroup\ --nocolor\ --column
-    set grepformat=%f:%l:%c%m
-
-    " CtrlP with ag
-    " bug: can't ignore files by g:ctrlp_custom_ignore
-    if has( 'unix' )
-        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    elseif has( 'win32' )
-        let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
-    endif
+   set grepprg=ag\ --nogroup\ --nocolor\ --column
+   set grepformat=%f:%l:%c%m
+   let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
 endif
 
 " Cscope
@@ -160,13 +158,22 @@ nnoremap <F7> :cs kill -1<CR>
 " Ctag
 nnoremap <C-]> :tjump <C-R>=expand("<cword>")<CR><CR>
 
+" Syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_python_checkers = ['python', 'pep8']
+let g:syntastic_c_checkers = ['gcc', 'cppcheck']
+let g:syntastic_cpp_checkers = ['gcc', 'cppcheck']
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 nz45s2                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" colorscheme PaperColor
+" colorscheme molokai
+colorscheme molokai
 set background=dark
-colorscheme PaperColor
+
 
 " cursorline
 set cursorline
@@ -218,3 +225,5 @@ nnoremap <F11> :YRShow<CR>
 " A
 nnoremap <F12> :A<CR>
 
+" Syntastic
+nnoremap <F10> :SyntasticToggleMode<CR>
